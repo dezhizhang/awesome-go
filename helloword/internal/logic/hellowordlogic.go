@@ -25,6 +25,8 @@ func NewHellowordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Hellowo
 
 func (l *HellowordLogic) Helloword(req *types.Request) (resp *types.Response, err error) {
 	// todo: add your logic here and delete this line
-
+	resp = &types.Response{
+		Message: "hello go zero",
+	}
 	return
 }
