@@ -6,11 +6,11 @@ import (
 	"time"
 )
 
-var Rc *redis.Client
-
 type RedisCache struct {
 	rdb *redis.Client
 }
+
+var Rc *RedisCache
 
 func init() {
 	rdb := redis.NewClient(&redis.Options{
@@ -18,11 +18,8 @@ func init() {
 		Password: "",
 		DB:       10,
 	})
-	//&RedisCache{
-	//	rdb,
-	//}
 
-	_ := &RedisCache{
+	Rc = &RedisCache{
 		rdb: rdb,
 	}
 
