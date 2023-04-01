@@ -1,6 +1,7 @@
 package config
 
 import (
+	"common/logs"
 	"github.com/spf13/viper"
 	"log"
 	"os"
@@ -32,6 +33,7 @@ func InitConfig() *Config {
 		log.Fatalln(err)
 	}
 	conf.ReadServerConfig()
+	conf.InitZapLog()
 	return conf
 
 }
@@ -41,4 +43,20 @@ func (c *Config) ReadServerConfig() {
 	sc.Name = c.viper.GetString("server.name")
 	sc.Addr = c.viper.GetString("server.addr")
 	c.SC = sc
+}
+
+func (c *Config) InitZapLog() {
+	lc := &logs.LogConfig{
+		MaxAge:        c.viper.GetInt("maxAge"),
+		MaxSize:       c.viper.GetInt("maxSize"),
+		MaxBackups:    c.viper.GetInt("maxBackups"),
+		DebugFileName: c.viper.GetString("zap.debugFileName"),
+		InfoFileName:  c.viper.GetString("zap.infoFileName"),
+		WarnFileName:  c.viper.GetString("zap.warnFileName"),
+	}
+
+	err := logs.InitLogger(lc)
+	if err != nil {
+		log.Fatalln(err)
+	}
 }

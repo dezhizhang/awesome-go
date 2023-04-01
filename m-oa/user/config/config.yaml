@@ -3,12 +3,12 @@ server:
   addr: ":8081"
 
 zap:
-  DebugFileName: "logs/debug.log"
-  InfoFileName: "logs/info.log"
-  WarnFileName: "logs/warn.log"
-  MaxSize: 500
-  MaxAge: 28,
-  MaxBackups: 3,
+  debugFileName: "logs/debug.log"
+  infoFileName: "logs/info.log"
+  warnFileName: "logs/warn.log"
+  maxSize: 500
+  maxAge: 28,
+  maxBackups: 3,
 
 redis:
   host: "localhost"
