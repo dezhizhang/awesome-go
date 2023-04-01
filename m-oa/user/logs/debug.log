@@ -1,2 +1,5 @@
 {"level":"INFO","time":"2023-04-01T21:31:59.178+0800","caller":"api/user.go:39","msg":"短信平台调用成功发送短信"}
 {"level":"INFO","time":"2023-04-01T21:32:04.985+0800","caller":"api/user.go:39","msg":"短信平台调用成功发送短信"}
+{"level":"INFO","time":"2023-04-01T22:29:01.197+0800","caller":"api/user.go:39","msg":"短信平台调用成功发送短信"}
+{"level":"INFO","time":"2023-04-01T22:30:49.687+0800","caller":"dao/redis.go:19","msg":"连接redis成功"}
+{"level":"INFO","time":"2023-04-01T22:30:58.053+0800","caller":"api/user.go:39","msg":"短信平台调用成功发送短信"}

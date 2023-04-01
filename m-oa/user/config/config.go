@@ -2,6 +2,7 @@ package config
 
 import (
 	"common/logs"
+	"github.com/go-redis/redis/v8"
 	"github.com/spf13/viper"
 	"log"
 	"os"
@@ -34,6 +35,8 @@ func InitConfig() *Config {
 	}
 	conf.ReadServerConfig()
 	conf.InitZapLog()
+	conf.ReadRedisConfig()
+
 	return conf
 
 }
@@ -58,5 +61,13 @@ func (c *Config) InitZapLog() {
 	err := logs.InitLogger(lc)
 	if err != nil {
 		log.Fatalln(err)
+	}
+}
+
+func (c *Config) ReadRedisConfig() *redis.Options {
+	return &redis.Options{
+		DB:       viper.GetInt("redis.db"),
+		Password: viper.GetString("redis.password"),
+		Addr:     c.viper.GetString("redis.host") + ":" + c.viper.GetString("redis.port"),
 	}
 }
