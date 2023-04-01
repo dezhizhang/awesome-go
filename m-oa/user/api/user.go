@@ -8,7 +8,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"log"
+	"go.uber.org/zap"
 	"net/http"
 	"time"
 )
@@ -36,12 +36,13 @@ func (h *HandlerUser) getCaptcha(ctx *gin.Context) {
 	code := "123456"
 	go func() {
 		time.Sleep(2 * time.Second)
-		log.Println("短信平台调用成功发送短信")
+		zap.L().Info("短信平台调用成功发送短信")
+
 		c, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 		defer cancel()
 		err := h.cache.Put(c, "REGISTER_"+mobile, code, 15*time.Minute)
 		if err != nil {
-			log.Fatalf("验证码存入redis出错:%v\n\n", err)
+			zap.L().Error("验证码存入redis出错:%v\n\n")
 		}
 	}()
 

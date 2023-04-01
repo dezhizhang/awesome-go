@@ -1,10 +1,12 @@
 package logs
 
 import (
+	"github.com/gin-gonic/gin"
 	"github.com/natefinch/lumberjack"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"os"
+	"time"
 )
 
 var LG *zap.Logger
@@ -58,4 +60,24 @@ func getLogWriter(fileName string, maxSize, maxBackups, maxAge int) zapcore.Writ
 		MaxBackups: maxBackups,
 	}
 	return zapcore.AddSync(logger)
+}
+
+func GinLogger() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		start := time.Now()
+		c.Next()
+		path := c.Request.URL.Path
+		cost := time.Since(start)
+
+		LG.Info(path,
+			zap.Duration("cost", cost),
+			zap.String("ip", c.ClientIP()),
+			zap.Int("status", c.Writer.Status()),
+			zap.String("method", c.Request.Method),
+			zap.String("path", c.Request.URL.Path),
+			zap.String("query", c.Request.URL.RawQuery),
+			zap.String("user-agent", c.Request.UserAgent()),
+			zap.String("errors", c.Errors.ByType(gin.ErrorTypePrivate).String()),
+		)
+	}
 }
