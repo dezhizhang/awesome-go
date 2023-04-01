@@ -1,6 +1,7 @@
 package main
 
 import (
+	"awesome-go/m-oa/user/config"
 	"awesome-go/m-oa/user/router"
 	srv "common"
 	"common/logs"
@@ -28,5 +29,5 @@ func main() {
 
 	router.InitRouter(r)
 
-	srv.Run(r, "user", ":8081")
+	srv.Run(r, config.C.SC.Name, config.C.SC.Addr)
 }

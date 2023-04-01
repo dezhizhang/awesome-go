@@ -1,0 +1,17 @@
+server:
+  name: "user"
+  addr: ":8081"
+
+zap:
+  DebugFileName: "logs/debug.log"
+  InfoFileName: "logs/info.log"
+  WarnFileName: "logs/warn.log"
+  MaxSize: 500
+  MaxAge: 28,
+  MaxBackups: 3,
+
+redis:
+  host: "localhost"
+  port: 6379
+  password: ""
+  db: 0
