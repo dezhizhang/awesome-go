@@ -13,8 +13,8 @@ func ParseTag(content []byte) engine.ParseResult {
 	for _, m := range match {
 		result.Items = append(result.Items, m[2])
 		result.Requests = append(result.Requests, engine.Request{
-			Url:       "https://book.douban.com/tag/" + string(m[1]),
-			ParseFunc: engine.NilParse,
+			Url:       "https://book.douban.com" + string(m[1]),
+			ParseFunc: ParseBookList,
 		})
 	}
 
