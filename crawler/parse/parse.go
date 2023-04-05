@@ -5,7 +5,7 @@ import (
 	"regexp"
 )
 
-func ParseContent(content []byte) engine.ParseResult {
+func ParseTag(content []byte) engine.ParseResult {
 	reg := regexp.MustCompile(`<a href="([^"]+)" class="tag">([^<""]+)</a>`)
 	match := reg.FindAllSubmatch(content, -1)
 	result := engine.ParseResult{}

@@ -9,24 +9,15 @@ import (
 func Fetch(url string) ([]byte, error) {
 
 	client := &http.Client{}
-
-	request, err := http.NewRequest("GET", url, nil)
-	request.Header.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36")
-
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		panic(err)
+		return nil, fmt.Errorf("error get url:%s", err)
 	}
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36")
 
-	response, _ := client.Do(request)
-	defer response.Body.Close()
+	resp, _ := client.Do(req)
+	defer resp.Body.Close()
 
-	if response.StatusCode != http.StatusOK {
-		fmt.Printf("Error status code:%d", response.StatusCode)
-	}
+	return ioutil.ReadAll(resp.Body)
 
-	result, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		panic(err)
-	}
-	return result, err
 }
