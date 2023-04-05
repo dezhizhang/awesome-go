@@ -6,11 +6,11 @@ import (
 )
 
 func main() {
-	str := "abc a7c mfc cat cba"
+	str := "1541609448@qq.com"
 
-	ret := regexp.MustCompile("a.c")
+	reg := regexp.MustCompile(str)
 
-	all := ret.FindAllStringSubmatch(str, -1)
-	fmt.Println("all", all)
+	res := reg.FindString(str)
+	fmt.Println("all", res)
 
 }
