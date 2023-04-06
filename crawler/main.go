@@ -3,6 +3,7 @@ package main
 import (
 	"crawler/engine"
 	"crawler/parse"
+	"crawler/scheduler"
 )
 
 func main() {
@@ -12,7 +13,7 @@ func main() {
 	//})
 
 	concurrent := engine.ConcurrentEngine{
-		Scheduler: &engine.SimpleScheduler{},
+		Scheduler: &scheduler.QueueScheduler{},
 		WorkCount: 100,
 	}
 

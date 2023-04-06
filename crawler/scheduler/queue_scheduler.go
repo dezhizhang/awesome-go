@@ -11,18 +11,16 @@ func (s *QueueScheduler) Submit(r engine.Request) {
 	s.requestChan <- r
 }
 
-func (s *QueueScheduler) ConfigWorkChan(chan engine.Request) {
-
-}
-
 func (s *QueueScheduler) WorkReady(w chan engine.Request) {
 	s.workerChan <- w
 }
 
 func (s *QueueScheduler) Run() {
-	var requestQ []engine.Request
-	var workQ []chan engine.Request
+	s.workerChan = make(chan chan engine.Request)
+	s.requestChan = make(chan engine.Request)
 	go func() {
+		var requestQ []engine.Request
+		var workQ []chan engine.Request
 		for {
 			var activeRequest engine.Request
 			var activeWork chan engine.Request

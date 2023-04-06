@@ -8,7 +8,6 @@ import (
 
 type Scheduler interface {
 	Submit(request Request)
-	ConfigWorkChan(chan Request)
 	Run()
 	WorkReady(chan Request)
 }
@@ -49,6 +48,7 @@ func CreateWork(out chan ParseResult, s Scheduler) {
 	in := make(chan Request)
 	go func() {
 		for {
+			s.WorkReady(in)
 			request := <-in
 
 			result, err := Worker(request)
