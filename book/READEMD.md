@@ -141,7 +141,7 @@ func main() {
 ### 加载模板
 ```go
 func handler(w http.ResponseWriter, r *http.Request) {
-	files, err := template.ParseFiles("./template/index.html")
+	files, err := template.ParseFiles("./view/index.html")
 	if err != nil {
 		log.Printf("加载模板失败%s", err)
 	}
