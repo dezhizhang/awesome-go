@@ -1,32 +1,33 @@
 package service
 
-import "book/dao"
+import (
+	"book/dao"
+	"book/model"
+	"log"
+)
 
 func AddUser() error {
 	sqlStr := "insert into users(id,name,password,email) values (?,?,?,?)"
 	result, err := dao.DB.Prepare(sqlStr)
 	if err != nil {
-		panic(err)
+		log.Printf("预编译失败%s", err)
 	}
 
-	_, err = result.Exec("456", "张三", "13456", "1541609448@qq.com")
+	_, err = result.Exec("12312", "刘德华", "123456", "1541609448@qq.com")
 	if err != nil {
-		panic(err)
+		log.Printf("添加失败%s", err)
 	}
 	return nil
 }
 
-//func AddUser() error {
-//	sqlStr := "insert into users(id,name,password,email) values (?,?,?,?)"
-//
-//	result, err := dao.DB.Prepare(sqlStr)
-//	if err != nil {
-//		log.Panic(err)
-//	}
-//
-//	_, err2 := result.Exec("123", "张三", "123456", "1541@qq.com")
-//	if err2 != nil {
-//		panic(err)
-//	}
-//	return nil
-//}
+func GetUserQuery() (model.User, error) {
+	sqlStr := "select * from users where id = ?"
+	row := dao.DB.QueryRow(sqlStr, "456")
+
+	user := model.User{}
+	err := row.Scan(&user.Id, &user.Name, &user.Password, &user.Email)
+	if err != nil {
+		log.Printf("扫描失败%s", err)
+	}
+	return user, nil
+}
