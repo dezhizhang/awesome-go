@@ -138,3 +138,24 @@ func main() {
 }
 
 ```
+### 加载模板
+```go
+func handler(w http.ResponseWriter, r *http.Request) {
+	files, err := template.ParseFiles("./template/index.html")
+	if err != nil {
+		log.Printf("加载模板失败%s", err)
+	}
+	files.Execute(w, nil)
+}
+
+func main() {
+	http.HandleFunc("/hello", handler)
+
+	err := http.ListenAndServe("localhost:8080", nil)
+	if err != nil {
+		log.Printf("启动服务失败%s", err)
+	}
+
+}
+
+```
