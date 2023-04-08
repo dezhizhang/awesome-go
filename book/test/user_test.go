@@ -19,3 +19,11 @@ func TestGetUser(t *testing.T) {
 	}
 	fmt.Println(query)
 }
+
+func TestGetUsers(t *testing.T) {
+	query, err := service.GetUsersQuery()
+	if err != nil {
+		log.Printf("获取结果失败")
+	}
+	fmt.Println(query)
+}

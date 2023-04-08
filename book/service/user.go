@@ -31,3 +31,21 @@ func GetUserQuery() (model.User, error) {
 	}
 	return user, nil
 }
+
+func GetUsersQuery() ([]model.User, error) {
+	sqlStr := "select * from users"
+	rows, err := dao.DB.Query(sqlStr)
+	if err != nil {
+		log.Printf("查询失败%s", err)
+	}
+	var user model.User
+	var users []model.User
+	for rows.Next() {
+		err := rows.Scan(&user.Id, &user.Name, &user.Password, &user.Email)
+		if err != nil {
+			log.Printf("扫描失败%s", err)
+		}
+		users = append(users, user)
+	}
+	return users, nil
+}
