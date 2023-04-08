@@ -7,11 +7,13 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	file, err := template.ParseFiles("./view/index.html")
-	if err != nil {
-		log.Printf("解析模板失败%s", err)
-	}
-	file.Execute(w, "周华建")
+	must := template.Must(template.ParseFiles("./view/index.html"))
+	must.Execute(w, "")
+}
+
+func handlerLogin(w http.ResponseWriter, r *http.Request) {
+	must := template.Must(template.ParseFiles("./view/login.html"))
+	must.Execute(w, "")
 }
 
 func main() {
@@ -22,6 +24,7 @@ func main() {
 
 	// 路由请求
 	http.HandleFunc("/", handler)
+	http.HandleFunc("/login", handlerLogin)
 
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
