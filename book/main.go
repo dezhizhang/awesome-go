@@ -19,6 +19,10 @@ func main() {
 	http.HandleFunc("/contact", controller.ContactHandler)
 	http.HandleFunc("/cart", controller.CartHandler)
 
+	//-------------
+	//测试文件
+	http.HandleFunc("/test", controller.TestHandler)
+
 	baseAPI := "/api/v1"
 
 	http.HandleFunc(baseAPI+"/user/check-email", controller.CheckEmail)
