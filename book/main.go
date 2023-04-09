@@ -1,35 +1,10 @@
 package main
 
 import (
-	"html/template"
+	"book/controller"
 	"log"
 	"net/http"
 )
-
-func handler(w http.ResponseWriter, r *http.Request) {
-	must := template.Must(template.ParseFiles("./view/index.html"))
-	must.Execute(w, "")
-}
-
-func loginHandler(w http.ResponseWriter, r *http.Request) {
-	must := template.Must(template.ParseFiles("./view/login.html"))
-	must.Execute(w, "")
-}
-
-func registerHandler(w http.ResponseWriter, r *http.Request) {
-	must := template.Must(template.ParseFiles("./view/register.html"))
-	must.Execute(w, "")
-}
-
-func contactHandler(w http.ResponseWriter, r *http.Request) {
-	must := template.Must(template.ParseFiles("./view/contact.html"))
-	must.Execute(w, "")
-}
-
-func cartHandler(w http.ResponseWriter, r *http.Request) {
-	must := template.Must(template.ParseFiles("./view/cart.html"))
-	must.Execute(w, "")
-}
 
 func main() {
 
@@ -38,11 +13,15 @@ func main() {
 	http.Handle("/assets/", http.StripPrefix("/assets/", server))
 
 	// 路由请求
-	http.HandleFunc("/", handler)
-	http.HandleFunc("/login", loginHandler)
-	http.HandleFunc("/register", registerHandler)
-	http.HandleFunc("/contact", contactHandler)
-	http.HandleFunc("/cart", cartHandler)
+	http.HandleFunc("/", controller.HomeHandler)
+	http.HandleFunc("/login", controller.LoginHandler)
+	http.HandleFunc("/register", controller.RegisterHandler)
+	http.HandleFunc("/contact", controller.ContactHandler)
+	http.HandleFunc("/cart", controller.CartHandler)
+
+	baseAPI := "/api/v1"
+
+	http.HandleFunc(baseAPI+"/user/check-email", controller.CheckEmail)
 
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {

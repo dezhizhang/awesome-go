@@ -8,10 +8,10 @@ import (
 
 // 检测用户是否存在
 
-func CheckUserIsExist(email string, password string) (*model.User, error) {
+func CheckUserIsExist(email string) (*model.User, error) {
 	var user model.User
-	sqlStr := "select * from user where email = ? and password = ? "
-	row := dao.DB.QueryRow(sqlStr, email, password)
+	sqlStr := "select * from user where email = ? "
+	row := dao.DB.QueryRow(sqlStr, email)
 	err := row.Scan(&user)
 	if err != nil {
 		return nil, err

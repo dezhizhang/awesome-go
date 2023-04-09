@@ -12,7 +12,7 @@ var (
 )
 
 func init() {
-	DB, err = sql.Open("mysql", "root:701XTAY1993@/book")
+	DB, err = sql.Open("mysql", "root:701XTAY1993@/capital")
 	if err != nil {
 		panic(err)
 	}
