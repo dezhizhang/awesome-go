@@ -15,6 +15,10 @@ func (s *QueueScheduler) WorkReady(w chan engine.Request) {
 	s.workerChan <- w
 }
 
+func (s *QueueScheduler) WorkChan() (w chan engine.Request) {
+	return make(chan engine.Request)
+}
+
 func (s *QueueScheduler) Run() {
 	s.workerChan = make(chan chan engine.Request)
 	s.requestChan = make(chan engine.Request)
