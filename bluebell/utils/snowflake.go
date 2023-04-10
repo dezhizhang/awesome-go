@@ -8,7 +8,7 @@ import (
 func NewNode() int64 {
 	node, err := snowflake.NewNode(1)
 	if err != nil {
-		log.Printf("生成失败")
+		log.Printf("生成雪花算法失败")
 	}
 
 	id := node.Generate().Int64()
