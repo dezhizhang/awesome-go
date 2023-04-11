@@ -19,7 +19,7 @@ func RegisterHandler(c *gin.Context) {
 	if err != nil {
 		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
-			handler(c, "200", err.Error())
+			FailHandler(c, "200", err.Error())
 		}
 		c.JSON(http.StatusOK, gin.H{
 			"msg": utils.RemoveTopStruct(errs.Translate(utils.Trans)),
