@@ -1,23 +1,23 @@
 package dao
 
 import (
-	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
-	"time"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"log"
 )
 
 var (
-	DB  *sql.DB
+	DB  *gorm.DB
 	err error
 )
 
 func init() {
-	DB, err = sql.Open("mysql", "root:701XTAY1993@/bluebell")
+	dsn := "root:701XTAY1993@tcp(127.0.0.1:3306)/bluebell?charset=utf8mb4&parseTime=True&loc=Local"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic(err)
+		log.Printf("边接数据库失败%s", err)
+		return
 	}
-	// See "Important settings" section.
-	DB.SetConnMaxLifetime(time.Minute * 3)
-	DB.SetMaxOpenConns(10)
-	DB.SetMaxIdleConns(10)
+	DB = db
 }

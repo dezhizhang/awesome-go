@@ -27,15 +27,11 @@ func RegisterHandler(c *gin.Context) {
 		})
 		return
 	}
-	id, err := logic.CheckUserExit(user.Email)
+	result, err := logic.CheckUserExit(user.Email)
 	if err != nil {
 		log.Printf(err.Error())
 		return
 	}
-	if id != 0 {
-		c.JSON(http.StatusOK, gin.H{"code": 400, "msg": "当前用户已存在"})
-		return
-	}
 
-	c.JSON(http.StatusOK, gin.H{"code": 200, "msg": "请求成功"})
+	c.JSON(http.StatusOK, gin.H{"code": 200, "msg": "请求成功", "data": result})
 }

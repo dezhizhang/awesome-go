@@ -2,19 +2,15 @@ package logic
 
 import (
 	"bluebell/dao"
-	"fmt"
+	"bluebell/model"
 	"log"
 )
 
-func CheckUserExit(email string) (userId int64, err error) {
-	var id int64
-	sqlStr := "select * from user where email = ?"
-	fmt.Println(email)
-	row := dao.DB.QueryRow(sqlStr, &email)
-	err = row.Scan(&id)
+func CheckUserExit(email string) (user *model.User, err error) {
+	err = dao.DB.Find(&user).Where("email =? ", email).Error
 	if err != nil {
-		log.Printf("扫描失败")
-		return 0, err
+		log.Printf("查询失败%s", err)
+		return nil, err
 	}
-	return id, nil
+	return user, nil
 }
