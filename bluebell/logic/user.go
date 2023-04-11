@@ -18,6 +18,8 @@ func CheckUserExit(email string) (user *model.User, err error) {
 	return user, nil
 }
 
+// 注册用户
+
 func CreateUser(req *model.UserRegister) (err error) {
 	var user model.User
 	id, err := utils.SnowflakeId()
@@ -32,4 +34,16 @@ func CreateUser(req *model.UserRegister) (err error) {
 	user.CreateTime = now.Format("2006-01-02 15:04:05")
 	err = dao.DB.Create(user).Error
 	return
+}
+
+// 用户登录
+
+func UserLogin(req *model.UserLogin) (err error) {
+	var user model.User
+	_, err = CheckUserExit(req.Email)
+	if err != nil {
+		return err
+	}
+	result := dao.DB.Where("email = ? and password = ? ", req.Email, req.Password).Find(&user)
+	return result.Error
 }

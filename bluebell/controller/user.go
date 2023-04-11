@@ -59,4 +59,9 @@ func LoginHandler(c *gin.Context) {
 		})
 		return
 	}
+	err = logic.UserLogin(&loginParams)
+	if err != nil {
+		log.Printf("login登录失败%s", err)
+	}
+	c.JSON(http.StatusOK, gin.H{"code": 200, "msg": "登录成功"})
 }
