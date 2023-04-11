@@ -8,7 +8,7 @@ import (
 )
 
 func TestNewNode(t *testing.T) {
-	id, err := utils.NewNode()
+	id, err := utils.SnowflakeId()
 	if err != nil {
 		log.Printf("生成失败")
 	}

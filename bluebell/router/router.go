@@ -12,6 +12,8 @@ func StepRouter() *gin.Engine {
 
 	g.POST("/register", controller.RegisterHandler)
 
+	g.POST("/login", controller.LoginHandler)
+
 	g.GET("/user", func(c *gin.Context) {
 
 	})
