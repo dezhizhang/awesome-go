@@ -15,11 +15,24 @@ func getCode(code int) string {
 	return ""
 }
 
+// 失败返回的数据
+
 func FailHandler(c *gin.Context, code int) {
-	rsp := &model.ResponseData{
+	resp := &model.ResponseData{
 		Code: code,
 		Msg:  getCode(code),
 		Data: nil,
 	}
-	c.JSON(http.StatusOK, rsp)
+	c.JSON(http.StatusOK, resp)
+}
+
+// 成功后返回的数据
+
+func SuccessHandler(c *gin.Context, code int, data interface{}) {
+	resp := &model.ResponseData{
+		Code: code,
+		Msg:  getCode(code),
+		Data: data,
+	}
+	c.JSON(http.StatusOK, resp)
 }

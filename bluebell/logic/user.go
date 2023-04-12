@@ -8,6 +8,8 @@ import (
 	"time"
 )
 
+const FORMAT = "2006-01-02 15:04:05"
+
 func CheckUserExit(email string) (user *model.User, err error) {
 
 	err = dao.DB.Where("email = ?", email).Find(&user).Error
@@ -30,8 +32,8 @@ func CreateUser(req *model.UserRegister) (err error) {
 	user.Id = id
 	user.Email = req.Email
 	user.Username = req.Username
-	user.Password = req.Password
-	user.CreateTime = now.Format("2006-01-02 15:04:05")
+	user.Password = utils.CryptoMd5(req.Password)
+	user.CreateTime = now.Format(FORMAT)
 	err = dao.DB.Create(user).Error
 	return
 }
