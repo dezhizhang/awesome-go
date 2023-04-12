@@ -4,6 +4,7 @@ import (
 	"bluebell/dao"
 	"bluebell/model"
 	"bluebell/utils"
+	"fmt"
 	"log"
 	"time"
 )
@@ -40,12 +41,14 @@ func CreateUser(req *model.UserRegister) (err error) {
 
 // 用户登录
 
-func UserLogin(req *model.UserLogin) (err error) {
-	var user model.User
+func UserLogin(req *model.UserLogin) (user *model.User, err error) {
+
 	_, err = CheckUserExit(req.Email)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	result := dao.DB.Where("email = ? and password = ? ", req.Email, req.Password).Find(&user)
-	return result.Error
+	password := utils.CryptoMd5(req.Password)
+	result := dao.DB.Where("email = ? AND password = ? ", req.Email, password).Find(&user)
+	fmt.Println(user.Username)
+	return user, result.Error
 }

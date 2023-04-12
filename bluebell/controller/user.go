@@ -4,6 +4,7 @@ import (
 	"bluebell/logic"
 	"bluebell/model"
 	"bluebell/utils"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"log"
@@ -47,10 +48,16 @@ func LoginHandler(c *gin.Context) {
 		)
 		return
 	}
-	err = logic.UserLogin(&loginParams)
-	if err != nil {
+	user, err := logic.UserLogin(&loginParams)
+	if err != nil && user.Username == "" {
 		log.Printf("login登录失败%s", err)
 		return
 	}
-	ResponseSuccess(c, CodeSuccess, nil)
+	fmt.Println(user)
+	token, err := utils.GenToken(user.Id, user.Username)
+	if err != nil {
+		log.Printf("生成token失败%s", err)
+		return
+	}
+	ResponseSuccess(c, CodeSuccess, token)
 }

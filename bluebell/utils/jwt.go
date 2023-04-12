@@ -11,7 +11,8 @@ import (
 const TokenExpireDuration = time.Hour * 2
 
 // 盐
-const mySecret = "bluebell"
+
+const MySecret = "bluebell12131"
 
 type MyClaims struct {
 	UserId   int64  `json:"userId"`
@@ -27,18 +28,18 @@ func GenToken(userId int64, username string) (string, error) {
 		Username: username,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(TokenExpireDuration).Unix(),
-			Issuer:    mySecret,
+			Issuer:    MySecret,
 		},
 	}
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, c)
-	return token.SignedString(mySecret)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
+	return token.SignedString(MySecret)
 }
 
 // 解析token
 
 func ParseToken(tokenSting string) (*MyClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenSting, &MyClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return mySecret, nil
+		return MySecret, nil
 	})
 
 	if err != nil {
