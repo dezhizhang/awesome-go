@@ -11,6 +11,8 @@ import (
 	"log"
 )
 
+// 用户注册
+
 func RegisterHandler(c *gin.Context) {
 	userReg := new(model.UserRegister)
 	err := c.ShouldBindJSON(&userReg)
@@ -38,6 +40,8 @@ func RegisterHandler(c *gin.Context) {
 	}
 	utils.ResponseSuccess(c, utils.CodeSuccess, nil)
 }
+
+// 用户登录
 
 func LoginHandler(c *gin.Context) {
 	var loginParams model.UserLogin
@@ -82,6 +86,8 @@ func UserByIdHandler(c *gin.Context) {
 	}
 	utils.ResponseSuccess(c, utils.CodeSuccess, user)
 }
+
+// 获取用户列表
 
 func UserListHandler(c *gin.Context) {
 	fmt.Println(c.Get(middlerware.CtxUserIdKey))
