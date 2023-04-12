@@ -1,4 +1,4 @@
-package controller
+package utils
 
 import (
 	"bluebell/model"
@@ -15,6 +15,8 @@ const (
 	CodeUserNotExit
 	CodeInvalidPassword
 	CodeServerBusy
+	CodeNeedLogin
+	CodeInvalidToken
 )
 
 var CodeMsgMap = map[ResCode]string{
@@ -24,6 +26,8 @@ var CodeMsgMap = map[ResCode]string{
 	CodeUserNotExit:     "用户不存在",
 	CodeInvalidPassword: "用户名或密码错误",
 	CodeServerBusy:      "服务器繁忙",
+	CodeNeedLogin:       "需要登录",
+	CodeInvalidToken:    "无效的token",
 }
 
 func getCode(code ResCode) string {

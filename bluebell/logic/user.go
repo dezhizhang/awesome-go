@@ -52,3 +52,17 @@ func UserLogin(req *model.UserLogin) (user *model.User, err error) {
 	fmt.Println(user.Username)
 	return user, result.Error
 }
+
+// 通过id获取用户
+
+func GetUserById(userId int64) (user model.User, err error) {
+	result := dao.DB.Where("id = ?", userId).Find(&user)
+	return user, result.Error
+}
+
+// 获取所有用户
+
+func GetUserList() (users *[]model.User, err error) {
+	tx := dao.DB.Find(&users)
+	return users, tx.Error
+}

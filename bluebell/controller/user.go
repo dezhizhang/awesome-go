@@ -2,6 +2,7 @@ package controller
 
 import (
 	"bluebell/logic"
+	"bluebell/middlerware"
 	"bluebell/model"
 	"bluebell/utils"
 	"fmt"
@@ -16,26 +17,26 @@ func RegisterHandler(c *gin.Context) {
 	if err != nil {
 		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
-			ResponseError(c, CodeInvalidParams)
+			utils.ResponseError(c, utils.CodeInvalidParams)
 			return
 		}
-		ResponseErrorWithMsg(c, CodeInvalidParams,
+		utils.ResponseErrorWithMsg(c, utils.CodeInvalidParams,
 			utils.RemoveTopStruct(errs.Translate(utils.Trans)),
 		)
 		return
 	}
 	result, _ := logic.CheckUserExit(userReg.Email)
 	if result.Id != 0 {
-		ResponseError(c, CodeUserExits)
+		utils.ResponseError(c, utils.CodeUserExits)
 		return
 	}
 
 	err = logic.CreateUser(userReg)
 	if err != nil {
-		ResponseError(c, CodeServerBusy)
+		utils.ResponseError(c, utils.CodeServerBusy)
 		return
 	}
-	ResponseSuccess(c, CodeSuccess, nil)
+	utils.ResponseSuccess(c, utils.CodeSuccess, nil)
 }
 
 func LoginHandler(c *gin.Context) {
@@ -43,7 +44,7 @@ func LoginHandler(c *gin.Context) {
 	err := c.ShouldBindJSON(&loginParams)
 	if err != nil {
 		errs, _ := err.(validator.ValidationErrors)
-		ResponseErrorWithMsg(c, CodeInvalidParams,
+		utils.ResponseErrorWithMsg(c, utils.CodeInvalidParams,
 			utils.RemoveTopStruct(errs.Translate(utils.Trans)),
 		)
 		return
@@ -53,11 +54,35 @@ func LoginHandler(c *gin.Context) {
 		log.Printf("login登录失败%s", err)
 		return
 	}
-	fmt.Println(user)
 	token, err := utils.GenToken(user.Id, user.Username)
 	if err != nil {
 		log.Printf("生成token失败%s", err)
 		return
 	}
-	ResponseSuccess(c, CodeSuccess, token)
+	utils.ResponseSuccess(c, utils.CodeSuccess, token)
+}
+
+// 通过id获取用户信息
+
+func UserByIdHandler(c *gin.Context) {
+	value, ok := c.Get(middlerware.CtxUserIdKey)
+	if !ok {
+		log.Printf("中间件获取id失败%s", ok)
+		return
+	}
+	userId, ok := value.(int64)
+	if !ok {
+		log.Printf("用户id转换失败")
+		return
+	}
+	user, err := logic.GetUserById(userId)
+	if err != nil {
+		log.Printf("通过UserByIdHandler获取用户失败%s", err)
+		return
+	}
+	utils.ResponseSuccess(c, utils.CodeSuccess, user)
+}
+
+func UserListHandler(c *gin.Context) {
+	fmt.Println(c.Get(middlerware.CtxUserIdKey))
 }

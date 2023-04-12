@@ -2,6 +2,7 @@ package router
 
 import (
 	"bluebell/controller"
+	"bluebell/middlerware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,9 +15,8 @@ func StepRouter() *gin.Engine {
 
 	g.POST("/login", controller.LoginHandler)
 
-	g.GET("/user", func(c *gin.Context) {
-
-	})
+	g.GET("/user", middlerware.Auth(), controller.UserByIdHandler)
+	g.GET("/user/list", middlerware.Auth(), controller.UserListHandler)
 
 	return r
 }
