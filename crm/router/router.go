@@ -20,7 +20,7 @@ func StepRouter() *gin.Engine {
 	g.GET("/user/list", controller.UserListHandler)
 
 	//客户管理
-	g.GET("/customer/contact", controller.ContactHandler)
+	g.GET("/customer-management/customer", controller.ContactHandler)
 
 	return r
 }
