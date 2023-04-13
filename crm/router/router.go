@@ -9,14 +9,18 @@ import (
 func StepRouter() *gin.Engine {
 	r := gin.New()
 
+	// 注册与登录
+	r.POST("/api/v1/register", controller.RegisterHandler)
+	r.POST("/login", controller.LoginHandler)
+
 	g := r.Group("/api/v1")
+	g.Use(middlerware.Auth())
 
-	g.POST("/register", controller.RegisterHandler)
+	g.GET("/user", controller.UserByIdHandler)
+	g.GET("/user/list", controller.UserListHandler)
 
-	g.POST("/login", controller.LoginHandler)
-
-	g.GET("/user", middlerware.Auth(), controller.UserByIdHandler)
-	g.GET("/user/list", middlerware.Auth(), controller.UserListHandler)
+	//客户管理
+	g.GET("/customer/contact", controller.ContactHandler)
 
 	return r
 }
