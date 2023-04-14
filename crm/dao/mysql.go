@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"crm/model"
 	_ "github.com/go-sql-driver/mysql"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -20,4 +21,5 @@ func init() {
 		return
 	}
 	DB = db
+	db.AutoMigrate(&model.User{}, &model.Contact{})
 }
